@@ -64,6 +64,9 @@ def node_library_impl(ctx):
         for file in d.files:
             files.append(file)
     
+    for b in ctx.attr.closure_binaries:
+        transitive_data += d.files
+
     for dep in ctx.attr.deps:
         lib = dep.node_library
         transitive_srcs += lib.transitive_srcs
@@ -92,8 +95,8 @@ def node_library_impl(ctx):
         cmds += _copy_to_namespace(staging_dir, script)
     for src in srcs:
         cmds += _copy_to_namespace(staging_dir, src)
-    #for file in files:
-    #    cmds += _copy_to_namespace(staging_dir, file)
+    for file in files:
+        cmds += _copy_to_namespace(staging_dir, file)
 
     install_cmd = [
         node.path,
@@ -151,6 +154,10 @@ node_library = rule(
         ),
         "d": attr.string(
             default = "No description provided.",
+        ),
+        "closure_binaries": attr.label_list(
+            allow_files = False,
+            providers = ["transitive_js_srcs"]
         ),
         "data": attr.label_list(
             allow_files = True,
