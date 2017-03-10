@@ -63,7 +63,7 @@ def node_library_impl(ctx):
         transitive_data += d.files
         for file in d.files:
             files.append(file)
-
+    
     for dep in ctx.attr.deps:
         lib = dep.node_library
         transitive_srcs += lib.transitive_srcs
@@ -92,8 +92,8 @@ def node_library_impl(ctx):
         cmds += _copy_to_namespace(staging_dir, script)
     for src in srcs:
         cmds += _copy_to_namespace(staging_dir, src)
-    for file in files:
-        cmds += _copy_to_namespace(staging_dir, file)
+    #for file in files:
+    #    cmds += _copy_to_namespace(staging_dir, file)
 
     install_cmd = [
         node.path,
