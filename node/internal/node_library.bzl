@@ -63,9 +63,6 @@ def node_library_impl(ctx):
         transitive_data += d.files
         for file in d.files:
             files.append(file)
-    
-    for b in ctx.attr.closure_binaries:
-        transitive_data += d.files
 
     for dep in ctx.attr.deps:
         lib = dep.node_library
@@ -154,10 +151,6 @@ node_library = rule(
         ),
         "d": attr.string(
             default = "No description provided.",
-        ),
-        "closure_binaries": attr.label_list(
-            allow_files = False,
-            providers = ["transitive_js_srcs"]
         ),
         "data": attr.label_list(
             allow_files = True,

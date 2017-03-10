@@ -93,6 +93,7 @@ node_binary = rule(
         ),
         "data": attr.label_list(
             allow_files = True,
+            cfg = 'data'
         ),
         "deps": attr.label_list(
             providers = ["node_library"],
